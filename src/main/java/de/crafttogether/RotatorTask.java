@@ -28,11 +28,10 @@ public class RotatorTask extends BukkitRunnable {
 		Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
 
 		ArrayList<Player> newList = this.players;
-		for (Player p : this.players) {
+		for (Player p : newList) {
 			if (!onlinePlayers.contains(p) || !p.isOnline())
-				newList.remove(p);
+				this.players.remove(p);
 		}
-		this.players = newList;
 		
 		for (Player p : onlinePlayers) {
 			if (this.players.contains(p) || !p.isOnline())
