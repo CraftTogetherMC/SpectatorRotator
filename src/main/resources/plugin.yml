@@ -7,4 +7,4 @@ description: Keep watching your players
 commands:
    spectate:
      description: Toggle SpectatorRotator
-     usage: /spectrate
+     usage: /spectate

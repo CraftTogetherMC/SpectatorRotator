@@ -35,10 +35,10 @@ public class RotatorTask extends BukkitRunnable {
 		this.players = newList;
 		
 		for (Player p : onlinePlayers) {
-			if (!this.players.contains(p) || p.isOnline())
+			if (this.players.contains(p) || !p.isOnline())
 				continue;
 			
-			if (!p.getName().equals(this.player.getName()))
+			if (p.getName().equals(this.player.getName()))
 				continue;
 			
 			if (p.hasPermission("sr.spectate.bypass"))
@@ -48,20 +48,22 @@ public class RotatorTask extends BukkitRunnable {
 		}
 
 		for (int i = 0; i < this.players.size(); i++) {
-			if (this.index == i) {
-				if (this.index > this.players.size() -1)
-					this.index = 0;
-				
-				index++;
-				
-				if (this.target == null || !this.target.equals(this.players.get(i - 1))) {
-					this.target = this.players.get(i - 1);
-					break;
-				}
+			if (this.index > this.players.size() -1)
+				this.index = 0;
+			
+			if (this.index == i && !this.players.get(index).equals(this.target)) {				
+				this.target = this.players.get(index);
+				this.index++;
+				break;
 			}
 		}
 		
 		if (this.target != null) {
+			if (this.player.getSpectatorTarget() != null && this.player.getSpectatorTarget().equals(this.target)) {
+				this.player.sendTitle("", plugin.getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), -1, 20*interval, -1);
+				return;
+			}
+			
 			this.player.setGameMode(GameMode.SPECTATOR);
 			this.player.setSpectatorTarget(null);
 			this.player.teleport(this.target);
@@ -74,7 +76,7 @@ public class RotatorTask extends BukkitRunnable {
 					if (!p.getGameMode().equals(GameMode.SPECTATOR))
 						p.setGameMode(GameMode.SPECTATOR);
 					
-					p.sendTitle("", plugin.getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), 20, 20*interval, 20);
+					p.sendTitle("", plugin.getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), 30, 20*interval, 30);
 					p.setSpectatorTarget(target);
 				}
 			}, 10L);
