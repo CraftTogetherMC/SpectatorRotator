@@ -1,7 +1,6 @@
 package de.crafttogether;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -19,7 +18,6 @@ public class Commands implements TabExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		UUID uuid = null;
 		Player p = null;
 		BukkitTask task = null;
 		int interval = 15;
@@ -32,7 +30,7 @@ public class Commands implements TabExecutor {
 
 		if (!p.hasPermission("sr.spectate")) {
 			p.sendMessage(plugin.getMessage("PermissionDenied"));
-			return false;
+			return true;
 		}
 		
 		if (args.length > 0 && args[0].matches("[0-9]+")) {
@@ -41,12 +39,11 @@ public class Commands implements TabExecutor {
 				p.sendMessage(plugin.getMessage("InvalidArguments"));
 			}
 		}
-		
-		uuid = p.getUniqueId();
 
-		if (plugin.spectating.containsKey(uuid)) {
-			plugin.spectating.get(uuid).cancel();
-			plugin.spectating.remove(uuid);
+		if (plugin.spectating.containsKey(p)) {
+			plugin.spectating.get(p).cancel();
+			plugin.spectating.remove(p);
+			plugin.targets.remove(p);
 			
 			if (p.getGameMode().equals(GameMode.SPECTATOR))
 				p.setSpectatorTarget(null);
@@ -55,7 +52,7 @@ public class Commands implements TabExecutor {
 		}
 		else {				
 			task = new RotatorTask(plugin, p, interval).runTaskTimer(plugin, 0, 20*interval);
-			plugin.spectating.put(uuid, task);
+			plugin.spectating.put(p, task);
 		}
 
 		return true;

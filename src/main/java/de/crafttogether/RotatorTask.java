@@ -73,16 +73,16 @@ public class RotatorTask extends BukkitRunnable {
 			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 				@Override
 				public void run() {
-					if (!p.getGameMode().equals(GameMode.SPECTATOR))
-						p.setGameMode(GameMode.SPECTATOR);
-					
+					p.setGameMode(GameMode.SPECTATOR);
 					p.sendTitle("", plugin.getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), 30, 20*interval, 30);
 					p.setSpectatorTarget(target);
 				}
 			}, 10L);
+			
+			plugin.targets.put(this.target, this.player);
 		}
 		else {
-			plugin.spectating.remove(this.player.getUniqueId());
+			plugin.spectating.remove(this.player);
 			this.player.sendMessage(plugin.getMessage("NoPlayerFound"));
 			this.cancel();
 		}

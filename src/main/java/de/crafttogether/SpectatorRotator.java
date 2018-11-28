@@ -2,9 +2,9 @@ package de.crafttogether;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
@@ -17,15 +17,17 @@ public class SpectatorRotator extends JavaPlugin {
     private static SpectatorRotator plugin;
     private Configuration config;
 
-    public HashMap<UUID, BukkitTask> spectating;
+    public HashMap<Player, BukkitTask> spectating;
+    public HashMap<Player, Player> targets;
         
     public void onEnable() {
     	plugin = this;
 
         saveDefaultConfig();
         this.config = getConfig();
-    	
-    	spectating = new HashMap<UUID, BukkitTask>();
+
+    	spectating = new HashMap<Player, BukkitTask>();
+    	targets = new HashMap<Player, Player>();
 
         Bukkit.getPluginManager().registerEvents(new Events(this), this);
         this.registerCommand("spectate", new Commands(this));
@@ -36,16 +38,18 @@ public class SpectatorRotator extends JavaPlugin {
     }
     
     public void onDisable() {
-    	for (Entry<UUID, BukkitTask> entry: this.spectating.entrySet()) {
-    		UUID uuid = entry.getKey();
-    		Player p = Bukkit.getServer().getPlayer(uuid);
+    	for (Entry<Player, BukkitTask> entry: this.spectating.entrySet()) {
+    		Player p = entry.getKey();
     		BukkitTask task = entry.getValue();
     		
     		task.cancel();
-    		plugin.spectating.remove(uuid);
+    		plugin.spectating.remove(p);
+			plugin.targets.remove(p);
     		
     		if (p != null) {
-    			p.setSpectatorTarget(null);
+    			if (p.getGameMode().equals(GameMode.SPECTATOR))
+    				p.setSpectatorTarget(null);
+    			
     			p.sendTitle("", plugin.getMessage("RotatorDisabled"), -1, 60, -1);
     		}
     	}
