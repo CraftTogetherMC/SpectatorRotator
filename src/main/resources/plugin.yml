@@ -1,0 +1,10 @@
+name: SpectatorRotator
+main: de.crafttogether.SpectatorRotator
+version: 1.1.0
+website: http://www.craft-together.de
+author: J0schlZ
+description: Keep watching your players
+commands:
+   spectate:
+     description: Toggle SpectatorRotator
+     usage: /spectrate

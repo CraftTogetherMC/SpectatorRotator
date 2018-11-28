@@ -1,0 +1,5 @@
+PermissionDenied: "&cYou don't have permission."
+InvalidArguments: "&cYou have to provide an interval between 5 and 300 seconds"
+NoPlayerFound: "&cNo Player found"
+SpectatingTitle: "Spectating player %targetPlayer%"
+RotatorDisabled: "&cSpectatorRotator disabled"
