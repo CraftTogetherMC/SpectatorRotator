@@ -78,8 +78,6 @@ public class RotatorTask extends BukkitRunnable {
 					p.setSpectatorTarget(target);
 				}
 			}, 10L);
-			
-			plugin.targets.put(this.target, this.player);
 		}
 		else {
 			plugin.spectating.remove(this.player);

@@ -18,7 +18,6 @@ public class SpectatorRotator extends JavaPlugin {
     private Configuration config;
 
     public HashMap<Player, BukkitTask> spectating;
-    public HashMap<Player, Player> targets;
         
     public void onEnable() {
     	plugin = this;
@@ -27,7 +26,6 @@ public class SpectatorRotator extends JavaPlugin {
         this.config = getConfig();
 
     	spectating = new HashMap<Player, BukkitTask>();
-    	targets = new HashMap<Player, Player>();
 
         Bukkit.getPluginManager().registerEvents(new Events(this), this);
         this.registerCommand("spectate", new Commands(this));
@@ -44,7 +42,6 @@ public class SpectatorRotator extends JavaPlugin {
     		
     		task.cancel();
     		plugin.spectating.remove(p);
-			plugin.targets.remove(p);
     		
     		if (p != null) {
     			if (p.getGameMode().equals(GameMode.SPECTATOR))

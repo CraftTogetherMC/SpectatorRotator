@@ -43,7 +43,6 @@ public class Commands implements TabExecutor {
 		if (plugin.spectating.containsKey(p)) {
 			plugin.spectating.get(p).cancel();
 			plugin.spectating.remove(p);
-			plugin.targets.remove(p);
 			
 			if (p.getGameMode().equals(GameMode.SPECTATOR))
 				p.setSpectatorTarget(null);
