@@ -1,5 +1,7 @@
 package de.crafttogether;
 
+import java.util.Collection;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -36,28 +38,30 @@ private SpectatorRotator plugin;
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerTeleport(PlayerTeleportEvent ev) {
 		Player p = ev.getPlayer();
+		Player spectator = null;
+		Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
 		
-		if (!plugin.targets.containsKey(p))
-			return;
-
-		Player spectator = plugin.targets.get(p);
+		for (Player onlinePlayer : onlinePlayers) {
+			if (onlinePlayer.getSpectatorTarget() != null && onlinePlayer.getSpectatorTarget().equals(p)) {
+				spectator = onlinePlayer;
+				break;
+			}
+		}
 		
-		if (spectator == null || !spectator.isOnline())
+		if (spectator == null)
 			return;
-
-		System.out.println("spectator REALLY found " + spectator.getName());
-		spectator.sendMessage(p.getName() + " is teleporting");
 		
 		if (spectator.getGameMode().equals(GameMode.SPECTATOR))
 			spectator.setSpectatorTarget(null);
 
+		Player finalSpectator = spectator;
 		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 			@Override
 			public void run() {
-				spectator.teleport(p);
-				spectator.setGameMode(GameMode.SPECTATOR);
-				spectator.setSpectatorTarget(p);
+				finalSpectator.teleport(p);
+				finalSpectator.setGameMode(GameMode.SPECTATOR);
+				finalSpectator.setSpectatorTarget(p);
 			}
-		}, 60L);
+		}, 40L);
 	}
 }
