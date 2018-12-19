@@ -2,6 +2,8 @@ package de.crafttogether;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -27,10 +29,10 @@ public class RotatorTask extends BukkitRunnable {
 	public void run() {
 		Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
 
-		ArrayList<Player> newList = this.players;
-		for (Player p : newList) {
+		for(Iterator<Player> it = this.players.listIterator(); it.hasNext();) {
+			Player p = it.next();
 			if (!onlinePlayers.contains(p) || !p.isOnline())
-				this.players.remove(p);
+				it.remove();
 		}
 		
 		for (Player p : onlinePlayers) {
@@ -63,20 +65,7 @@ public class RotatorTask extends BukkitRunnable {
 				return;
 			}
 			
-			this.player.setGameMode(GameMode.SPECTATOR);
-			this.player.setSpectatorTarget(null);
-			this.player.teleport(this.target);
-			
-			final Player p = this.player;
-			final Player target = this.target;
-			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-				@Override
-				public void run() {
-					p.setGameMode(GameMode.SPECTATOR);
-					p.sendTitle("", plugin.getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), 30, 20*interval, 30);
-					p.setSpectatorTarget(target);
-				}
-			}, 10L);
+			plugin.spectate(this.player, this.target, interval);
 		}
 		else {
 			plugin.spectating.remove(this.player);

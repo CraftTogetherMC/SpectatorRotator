@@ -2,6 +2,7 @@ package de.crafttogether;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -33,10 +34,18 @@ public class Commands implements TabExecutor {
 			return true;
 		}
 		
-		if (args.length > 0 && args[0].matches("[0-9]+")) {
-			interval = Integer.parseInt(args[0]);
-			if (interval < 5 || interval > 300) {
-				p.sendMessage(plugin.getMessage("InvalidArguments"));
+		if (args.length > 0) {
+			Player target = null;
+			target = Bukkit.getPlayer(args[0]);
+			
+			if (target != null)
+				plugin.spectate(p, target, 19);
+			
+			else if (args[0].matches("[0-9]+")) {
+				interval = Integer.parseInt(args[0]);
+				if (interval < 5 || interval > 300) {
+					p.sendMessage(plugin.getMessage("InvalidArguments"));
+				}
 			}
 		}
 

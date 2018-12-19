@@ -57,6 +57,21 @@ public class SpectatorRotator extends JavaPlugin {
     	this.getCommand(cmd).setTabCompleter(executor);
     }
     
+	public void spectate(final Player player, final Player target, int titleDelay) {
+		player.setGameMode(GameMode.SPECTATOR);
+		player.setSpectatorTarget(null);
+		player.teleport(target);
+	
+		Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+			@Override
+			public void run() {
+				player.setGameMode(GameMode.SPECTATOR);
+				player.sendTitle("", getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), 30, 20*titleDelay, 30);
+				player.setSpectatorTarget(target);
+			}
+		}, 10L);
+	}
+    
     public static SpectatorRotator getInstance() {
         return plugin;
     }
