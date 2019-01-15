@@ -1,5 +1,6 @@
 package de.crafttogether;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -74,7 +75,14 @@ public class Commands implements TabExecutor {
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> proposals = new ArrayList<String>();
+		if (args.length < 2) {
+			proposals.add("10");
+			proposals.add("15");
+			proposals.add("20");
+			proposals.add("30");
+		}
+		proposals.add("-noclip");
+		return proposals;
 	}
 }
