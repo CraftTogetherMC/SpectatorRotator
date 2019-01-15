@@ -17,7 +17,7 @@ public class SpectatorRotator extends JavaPlugin {
     private static SpectatorRotator plugin;
     private Configuration config;
 
-    public HashMap<Player, BukkitTask> spectating;
+    public HashMap<Player, RotatorTask> spectating;
         
     public void onEnable() {
     	plugin = this;
@@ -25,7 +25,7 @@ public class SpectatorRotator extends JavaPlugin {
         saveDefaultConfig();
         this.config = getConfig();
 
-    	spectating = new HashMap<Player, BukkitTask>();
+    	spectating = new HashMap<Player, RotatorTask>();
 
         Bukkit.getPluginManager().registerEvents(new Events(this), this);
         this.registerCommand("spectate", new Commands(this));
@@ -36,9 +36,9 @@ public class SpectatorRotator extends JavaPlugin {
     }
     
     public void onDisable() {
-    	for (Entry<Player, BukkitTask> entry: this.spectating.entrySet()) {
+    	for (Entry<Player, RotatorTask> entry: this.spectating.entrySet()) {
     		Player p = entry.getKey();
-    		BukkitTask task = entry.getValue();
+    		RotatorTask task = entry.getValue();
     		
     		task.cancel();
     		plugin.spectating.remove(p);
@@ -57,7 +57,7 @@ public class SpectatorRotator extends JavaPlugin {
     	this.getCommand(cmd).setTabCompleter(executor);
     }
     
-	public void spectate(final Player player, final Player target, int titleDelay) {
+	public void spectate(final Player player, final Player target, int titleDelay, boolean clipped) {
 		player.setGameMode(GameMode.SPECTATOR);
 		player.setSpectatorTarget(null);
 		player.teleport(target);
@@ -67,7 +67,9 @@ public class SpectatorRotator extends JavaPlugin {
 			public void run() {
 				player.setGameMode(GameMode.SPECTATOR);
 				player.sendTitle("", getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), 30, 20*titleDelay, 30);
-				player.setSpectatorTarget(target);
+				
+				if (clipped)
+					player.setSpectatorTarget(target);
 			}
 		}, 10L);
 	}

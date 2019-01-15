@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,16 +15,24 @@ public class RotatorTask extends BukkitRunnable {
 	private Player target;
 	private int interval;
 	private int index;
+	public Boolean clipped;
 	
-	public RotatorTask(SpectatorRotator plugin, Player p, int interval) {
+	public RotatorTask(SpectatorRotator plugin, Player p, int interval, Boolean clipped) {
 		this.plugin = plugin;
 		this.players = new ArrayList<Player>();
 		this.player = p;
 		this.target = null;
 		this.index = 0;
 		this.interval = interval;
+		this.clipped = clipped;
+		
+		this.runTaskTimer(plugin, 0, 20*interval);
 	}
 
+	public boolean isClipped() {
+		return this.clipped;
+	}
+	
 	public void run() {
 		Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
 
@@ -65,7 +72,7 @@ public class RotatorTask extends BukkitRunnable {
 				return;
 			}
 			
-			plugin.spectate(this.player, this.target, interval);
+			plugin.spectate(this.player, this.target, interval, this.clipped);
 		}
 		else {
 			plugin.spectating.remove(this.player);

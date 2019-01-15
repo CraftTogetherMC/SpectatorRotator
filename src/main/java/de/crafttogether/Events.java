@@ -22,7 +22,7 @@ private SpectatorRotator plugin;
 	public void onPlayerToggleSneak(PlayerToggleSneakEvent ev) {
 		Player p = ev.getPlayer();
 		
-		if (!plugin.spectating.containsKey(p))
+		if (!plugin.spectating.containsKey(p) || !plugin.spectating.get(p).isClipped())
 			return;
 		
 		plugin.spectating.get(p).cancel();

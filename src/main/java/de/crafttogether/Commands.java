@@ -20,7 +20,8 @@ public class Commands implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player p = null;
-		BukkitTask task = null;
+		RotatorTask task = null;
+		Boolean clipped = true;
 		int interval = 15;
 		
 		if (sender instanceof Player)
@@ -38,8 +39,13 @@ public class Commands implements TabExecutor {
 			Player target = null;
 			target = Bukkit.getPlayer(args[0]);
 			
+			for (int i = 0; i < args.length; i++) {
+				if (args[i].equals("-noclip"))
+					clipped = false;
+			}
+			
 			if (target != null)
-				plugin.spectate(p, target, 19);
+				plugin.spectate(p, target, 19, clipped);
 			
 			else if (args[0].matches("[0-9]+")) {
 				interval = Integer.parseInt(args[0]);
@@ -59,7 +65,7 @@ public class Commands implements TabExecutor {
 			p.sendTitle("", plugin.getMessage("RotatorDisabled"), -1, 60, -1);
 		}
 		else {				
-			task = new RotatorTask(plugin, p, interval).runTaskTimer(plugin, 0, 20*interval);
+			task = new RotatorTask(plugin, p, interval, clipped);
 			plugin.spectating.put(p, task);
 		}
 

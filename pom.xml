@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.crafttogether</groupId>
   <artifactId>SpectatorRotator</artifactId>
-  <version>1.4.0</version>
+  <version>1.5.0</version>
   <name>SpectatorRotator</name>
   <description>Rotate through online players in spectator-mode</description>
   <repositories>
