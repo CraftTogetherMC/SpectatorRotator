@@ -20,11 +20,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>README.md</name>
-			<type>1</type>
-			<location>C:/Users/Rainer/eclipse-workspace/README.md</location>
-		</link>
-	</linkedResources>
 </projectDescription>

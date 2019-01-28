@@ -5,6 +5,10 @@
   <version>1.5.0</version>
   <name>SpectatorRotator</name>
   <description>Rotate through online players in spectator-mode</description>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
   <repositories>
     <repository>
       <id>spigot-repo</id>
