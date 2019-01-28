@@ -3,7 +3,7 @@
 Rotate online players in spectator-mode (default: 15)
 
 **Commands:**
- - /spectate [seconds]
+ - /spectate [seconds] [-noclip]
  
 **Permissions:**
  - sr.spectate
