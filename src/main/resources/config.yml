@@ -1,5 +1,10 @@
+# Configuration
+DisplayMode: "ACTIONBAR" # Use TITLE or ACTIONBAR or CHAT
+DisplayTimeout: 0 # Hide Message after X seconds (0 = disabled). Works only with TITLE or ACTIONBAR!
+
+# Messages:
 PermissionDenied: "&cYou don't have permission."
 InvalidArguments: "&cYou have to provide an interval between 5 and 300 seconds"
 NoPlayerFound: "&cNo Player found"
-SpectatingTitle: "Spectating player %targetPlayer%"
+SpectatingTitle: "&6Spectating player &e%targetPlayer%"
 RotatorDisabled: "&cSpectatorRotator disabled"

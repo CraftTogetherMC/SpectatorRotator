@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class SpectatorRotator extends JavaPlugin {
     private static SpectatorRotator plugin;
@@ -36,17 +37,17 @@ public class SpectatorRotator extends JavaPlugin {
     
     public void onDisable() {
     	for (Entry<Player, RotatorTask> entry: this.spectating.entrySet()) {
-    		Player p = entry.getKey();
+    		Player player = entry.getKey();
     		RotatorTask task = entry.getValue();
     		
     		task.cancel();
-    		plugin.spectating.remove(p);
+    		plugin.spectating.remove(player);
     		
-    		if (p != null) {
-    			if (p.getGameMode().equals(GameMode.SPECTATOR))
-    				p.setSpectatorTarget(null);
+    		if (player != null) {
+    			if (player.getGameMode().equals(GameMode.SPECTATOR))
+    				player.setSpectatorTarget(null);
     			
-    			p.sendTitle("", plugin.getMessage("RotatorDisabled"), -1, 60, -1);
+    			sendOutput(player, plugin.getMessage("RotatorDisabled"), 3);
     		}
     	}
     }
@@ -56,16 +57,34 @@ public class SpectatorRotator extends JavaPlugin {
     	this.getCommand(cmd).setTabCompleter(executor);
     }
     
-	public void spectate(final Player player, final Player target, int titleDelay, boolean clipped) {
+    public void sendOutput(Player p, String message, int delay) {
+    	String displayMode = this.config.getString("DisplayMode");
+    	int displayTimeout = this.config.getInt("DisplayTimeout");
+		
+		if (displayTimeout < delay && displayTimeout > 0)
+			delay = displayTimeout;
+		
+		if (displayMode.equalsIgnoreCase("CHAT"))
+			p.spigot().sendMessage(TextComponent.fromLegacyText(message));
+		
+		if (displayMode.equalsIgnoreCase("TITLE"))
+			p.sendTitle("", message, 30, 20*delay, 30);
+		
+		if (displayMode.equalsIgnoreCase("ACTIONBAR"))
+			ActionBar.sendActionBar(p, message, delay);
+    }
+    
+	public void spectate(final Player player, final Player target, int duration, boolean clipped) {
 		player.setGameMode(GameMode.SPECTATOR);
 		player.setSpectatorTarget(null);
 		player.teleport(target);
 	
 		Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+			
 			@Override
 			public void run() {
 				player.setGameMode(GameMode.SPECTATOR);
-				player.sendTitle("", getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), 30, 20*titleDelay, 30);
+    			sendOutput(player, getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), duration);
 				
 				if (clipped)
 					player.setSpectatorTarget(target);

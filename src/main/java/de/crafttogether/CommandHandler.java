@@ -61,7 +61,7 @@ public class CommandHandler implements TabExecutor {
 			if (p.getGameMode().equals(GameMode.SPECTATOR))
 				p.setSpectatorTarget(null);
 
-			p.sendTitle("", plugin.getMessage("RotatorDisabled"), -1, 60, -1);
+			plugin.sendOutput(p, plugin.getMessage("RotatorDisabled"), 3);
 		}
 		else {				
 			task = new RotatorTask(plugin, p, interval, clipped);

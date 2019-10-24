@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.crafttogether</groupId>
   <artifactId>SpectatorRotator</artifactId>
-  <version>1.5.0</version>
+  <version>1.6.0</version>
   <name>SpectatorRotator</name>
   <description>Rotate through online players in spectator-mode</description>
   <properties>
@@ -23,13 +23,13 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-        <version>1.13-R0.1-SNAPSHOT</version>
+        <version>1.14.4-R0.1-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.13-R0.1-SNAPSHOT</version>
+      <version>1.14.4-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
