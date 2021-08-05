@@ -25,7 +25,7 @@ public class SpectatorRotator extends JavaPlugin {
         saveDefaultConfig();
         this.config = getConfig();
 
-    	spectating = new HashMap<Player, RotatorTask>();
+    	spectating = new HashMap<>();
 
         Bukkit.getPluginManager().registerEvents(new Events(this), this);
         this.registerCommand("spectate", new CommandHandler());
@@ -79,16 +79,12 @@ public class SpectatorRotator extends JavaPlugin {
 		player.setSpectatorTarget(null);
 		player.teleport(target);
 	
-		Bukkit.getScheduler().runTaskLater(this, new Runnable() {
-			
-			@Override
-			public void run() {
-				player.setGameMode(GameMode.SPECTATOR);
-    			sendOutput(player, getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), duration);
-				
-				if (clipped)
-					player.setSpectatorTarget(target);
-			}
+		Bukkit.getScheduler().runTaskLater(this, () -> {
+			player.setGameMode(GameMode.SPECTATOR);
+			sendOutput(player, getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), duration);
+
+			if (clipped)
+				player.setSpectatorTarget(target);
 		}, 10L);
 	}
     
