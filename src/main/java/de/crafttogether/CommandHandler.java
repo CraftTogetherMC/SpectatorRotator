@@ -26,7 +26,11 @@ public class CommandHandler implements TabExecutor {
 		if (sender instanceof Player)
 			p = (Player) sender;
 		
-		if (p == null || !cmd.getName().equalsIgnoreCase("spectate"))
+		if (p == null || (!cmd.getName().equalsIgnoreCase("spectate")
+			&& !cmd.getName().equalsIgnoreCase("spec")
+			&& !cmd.getName().equalsIgnoreCase("rspec")
+			&& !cmd.getName().equalsIgnoreCase("rspectate"))
+		)
 			return true;
 
 		if (!p.hasPermission("sr.spectate")) {

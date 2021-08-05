@@ -68,7 +68,7 @@ public class RotatorTask extends BukkitRunnable {
 		
 		if (this.target != null) {
 			if (this.player.getSpectatorTarget() != null && this.player.getSpectatorTarget().equals(this.target)) {
-				this.player.sendTitle("", plugin.getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), -1, 20*interval, -1);
+				this.player.sendTitle("", plugin.getMessage("SpectatingMessage").replaceAll("%targetPlayer%", target.getName()), -1, 20*interval, -1);
 				return;
 			}
 			

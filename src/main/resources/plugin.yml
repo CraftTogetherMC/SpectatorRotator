@@ -6,5 +6,6 @@ author: J0schlZ
 description: Spectate your players
 commands:
    spectate:
+     aliases: [spec, rspec, rspectate]
      description: Toggle SpectatorRotator
      usage: /spectate [radius] [-noclip]

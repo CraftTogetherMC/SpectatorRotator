@@ -22,8 +22,8 @@ public class SpectatorRotator extends JavaPlugin {
     public void onEnable() {
     	plugin = this;
 
-        saveDefaultConfig();
         this.config = getConfig();
+		saveDefaultConfig();
 
     	spectating = new HashMap<>();
 
@@ -60,17 +60,17 @@ public class SpectatorRotator extends JavaPlugin {
     public void sendOutput(Player p, String message, int delay) {
     	String displayMode = this.config.getString("DisplayMode");
     	int displayTimeout = this.config.getInt("DisplayTimeout");
-		
-		if (displayTimeout < delay && displayTimeout > 0)
+
+		getLogger().info("DisplayMode: " + displayMode);
+
+    	if (displayTimeout < delay && displayTimeout > 0)
 			delay = displayTimeout;
-		
+
 		if (displayMode.equalsIgnoreCase("CHAT"))
 			p.spigot().sendMessage(TextComponent.fromLegacyText(message));
-		
-		if (displayMode.equalsIgnoreCase("TITLE"))
-			p.sendTitle("", message, 30, 20*delay, 30);
-		
-		if (displayMode.equalsIgnoreCase("ACTIONBAR"))
+		else if (displayMode.equalsIgnoreCase("TITLE"))
+			p.sendTitle(" ", message, 1, 20*delay, 1);
+		else if (displayMode.equalsIgnoreCase("ACTIONBAR"))
 			ActionBar.sendActionBar(p, message, delay);
     }
     
@@ -81,7 +81,7 @@ public class SpectatorRotator extends JavaPlugin {
 	
 		Bukkit.getScheduler().runTaskLater(this, () -> {
 			player.setGameMode(GameMode.SPECTATOR);
-			sendOutput(player, getMessage("SpectatingTitle").replaceAll("%targetPlayer%", target.getName()), duration);
+			sendOutput(player, getMessage("SpectatingMessage").replaceAll("%targetPlayer%", target.getName()), duration);
 
 			if (clipped)
 				player.setSpectatorTarget(target);

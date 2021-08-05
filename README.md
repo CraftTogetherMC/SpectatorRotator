@@ -3,9 +3,10 @@ Rotate online players in spectator-mode (default: 15)
 
 https://www.spigotmc.org/resources/spectatorrotator.62770/
 
+**Dev-Builds: https://ci.craft-together.de/**
 
 **Commands:**
- - /spectate [seconds] [-noclip]
+ - /spectate [seconds] [-noclip] (Aliases: /spec, /rspec, /rspectate)
  
 **Permissions:**
  - sr.spectate
