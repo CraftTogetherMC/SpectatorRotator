@@ -22,8 +22,8 @@ public class SpectatorRotator extends JavaPlugin {
     public void onEnable() {
     	plugin = this;
 
-        this.config = getConfig();
 		saveDefaultConfig();
+        this.config = getConfig();
 
     	spectating = new HashMap<>();
 
@@ -91,4 +91,9 @@ public class SpectatorRotator extends JavaPlugin {
     public static SpectatorRotator getInstance() {
         return plugin;
     }
+
+	public void reload() {
+    	this.reloadConfig();
+    	this.config = getConfig();
+	}
 }

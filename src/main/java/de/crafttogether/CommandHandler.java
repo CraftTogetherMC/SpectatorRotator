@@ -37,7 +37,13 @@ public class CommandHandler implements TabExecutor {
 			p.sendMessage(plugin.getMessage("PermissionDenied"));
 			return true;
 		}
-		
+
+		if (args[0].equalsIgnoreCase("reload")) {
+			plugin.reload();
+			p.sendMessage(plugin.getMessage("ConfigReloaded"));
+			return true;
+		}
+
 		if (args.length > 0) {
 			Player target = null;
 			target = Bukkit.getPlayer(args[0]);
@@ -83,6 +89,7 @@ public class CommandHandler implements TabExecutor {
 			proposals.add("15");
 			proposals.add("20");
 			proposals.add("30");
+			proposals.add("reload");
 		}
 		proposals.add("-noclip");
 		return proposals;
