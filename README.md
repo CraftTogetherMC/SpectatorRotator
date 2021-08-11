@@ -7,7 +7,8 @@ https://www.spigotmc.org/resources/spectatorrotator.62770/
 
 **Commands:**
  - /spectate [seconds] [-noclip] (Aliases: /spec, /rspec, /rspectate)
- 
+ - /spectate reload
+
 **Permissions:**
  - sr.spectate
  - sr.bypass
