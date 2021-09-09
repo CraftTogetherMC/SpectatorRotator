@@ -1,8 +1,12 @@
-package de.crafttogether.spectatorrotator.spigot;
+package de.crafttogether;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import de.crafttogether.spectatorrotator.ActionBar;
+import de.crafttogether.spectatorrotator.CommandHandler;
+import de.crafttogether.spectatorrotator.Events;
+import de.crafttogether.spectatorrotator.RotatorTask;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.TabExecutor;
@@ -13,8 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class SpectatorRotator extends JavaPlugin {
-    private static SpectatorRotator plugin;
+public class SpectatorRotatorPlugin extends JavaPlugin {
+    private static SpectatorRotatorPlugin plugin;
     private Configuration config;
 
     public HashMap<Player, RotatorTask> spectating;
@@ -88,7 +92,7 @@ public class SpectatorRotator extends JavaPlugin {
 		}, 10L);
 	}
     
-    public static SpectatorRotator getInstance() {
+    public static SpectatorRotatorPlugin instance() {
         return plugin;
     }
 

@@ -1,7 +1,8 @@
-package de.crafttogether.spectatorrotator.spigot;
+package de.crafttogether.spectatorrotator;
 
 import java.util.Collection;
 
+import de.crafttogether.SpectatorRotatorPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -12,9 +13,9 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 public class Events implements Listener {
-private SpectatorRotator plugin;
+private final SpectatorRotatorPlugin plugin;
 
-	public Events(SpectatorRotator plugin) {
+	public Events(SpectatorRotatorPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -54,13 +55,10 @@ private SpectatorRotator plugin;
 			spectator.setSpectatorTarget(null);
 
 		Player finalSpectator = spectator;
-		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-			@Override
-			public void run() {
-				finalSpectator.teleport(p);
-				finalSpectator.setGameMode(GameMode.SPECTATOR);
-				finalSpectator.setSpectatorTarget(p);
-			}
+		Bukkit.getScheduler().runTaskLater(plugin, () -> {
+			finalSpectator.teleport(p);
+			finalSpectator.setGameMode(GameMode.SPECTATOR);
+			finalSpectator.setSpectatorTarget(p);
 		}, 40L);
 	}
 }

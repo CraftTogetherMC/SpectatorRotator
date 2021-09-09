@@ -1,32 +1,33 @@
-package de.crafttogether.spectatorrotator.spigot;
+package de.crafttogether.spectatorrotator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
+import de.crafttogether.SpectatorRotatorPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class RotatorTask extends BukkitRunnable {
-	private SpectatorRotator plugin;
-	private ArrayList<Player> players;
-	private Player player;
+	private final SpectatorRotatorPlugin plugin;
+	private final ArrayList<Player> players;
+	private final Player player;
+	private final int interval;
+
 	private Player target;
-	private int interval;
 	private int index;
 	public Boolean clipped;
 	
-	public RotatorTask(SpectatorRotator plugin, Player p, int interval, Boolean clipped) {
+	public RotatorTask(SpectatorRotatorPlugin plugin, Player p, int interval, Boolean clipped) {
 		this.plugin = plugin;
-		this.players = new ArrayList<Player>();
+		this.players = new ArrayList<>();
 		this.player = p;
 		this.target = null;
 		this.index = 0;
 		this.interval = interval;
 		this.clipped = clipped;
 		
-		this.runTaskTimer(plugin, 0, 20*interval);
+		this.runTaskTimer(plugin, 0L, (long) 20*interval);
 	}
 
 	public boolean isClipped() {
@@ -36,11 +37,7 @@ public class RotatorTask extends BukkitRunnable {
 	public void run() {
 		Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
 
-		for(Iterator<Player> it = this.players.listIterator(); it.hasNext();) {
-			Player p = it.next();
-			if (!onlinePlayers.contains(p) || !p.isOnline())
-				it.remove();
-		}
+		this.players.removeIf(p -> !onlinePlayers.contains(p) || !p.isOnline());
 		
 		for (Player p : onlinePlayers) {
 			if (this.players.contains(p) || !p.isOnline())
