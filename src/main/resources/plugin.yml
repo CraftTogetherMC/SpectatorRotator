@@ -1,5 +1,5 @@
 name: SpectatorRotator
-main: de.crafttogether.SpectatorRotator
+main: de.crafttogether.spectatorrotator.SpectatorRotator
 version: 1.6.0
 website: http://www.craft-together.de
 author: J0schlZ
